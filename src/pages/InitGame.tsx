@@ -4,6 +4,8 @@ import { useId } from "../contexts/id_context";
 import { useUsername } from "../contexts/username_context";
 import { UsernameSelector } from "../components/UsernameSelector"
 import "../styles/InitGame.css"
+import { useWebsocket } from "../contexts/websocket_context";
+import { parse } from '../contexts/websocket_context'
 
 const UsernameDisplay = () => {
     let {username, setAccepted} = useUsername()
@@ -16,15 +18,24 @@ const UsernameDisplay = () => {
 }
 
 /**
- * Idea: on this website, we will acquire connection and websocket the shit out o
+ * Idea: on this website, we will acquire connection and websocket the shit out of if
  */
 const InitGame = () => {
-    let { id, setId } = useId()
-    let [opponent, setOpponent] = useState(false);
-    let { username, setUsername, accepted } = useUsername();
+    let { id } = useId()
+    let [opponent, setOpponent] = useState('');
+    let { accepted } = useUsername();
+    let { subscribe } = useWebsocket()
     
-    if (opponent) {
-        return <Redirect to={'/play/' + opponent} />
+    subscribe((ev: MessageEvent) => {
+        const data = parse(ev.data)
+        if (data[1] === 'play_with') {
+            setOpponent(data[2]);
+            console.log("Received redierct request");
+        }
+    })
+    
+    if (opponent.length > 0) {
+        return <Redirect to={'/game/' + opponent} />
     } else {
         return (
             <>

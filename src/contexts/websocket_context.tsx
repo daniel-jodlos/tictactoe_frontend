@@ -1,4 +1,3 @@
-import { exception } from 'console';
 import React, { useState, useMemo, useContext } from 'react'
 import { useId } from './id_context'
 
@@ -17,7 +16,7 @@ const context = React.createContext<WebsocketContextValue>({
 })
 let ws: WebSocket;
 
-function parse(msg: string) {
+export function parse(msg: string) {
     return msg.split(';')
 }
 
@@ -26,20 +25,19 @@ function setupWebsocket(setId: (_: string) => void, setConnected: (_: boolean) =
 
     ws.addEventListener('message', (msg: MessageEvent) => {
         const data = parse(msg.data)
+        console.log(msg.data);
+        
 
         if (data[1] === 'id') {
             setId(data[0])
-            setConnected(true)
             console.log('Socket connected');
-            
             msg.preventDefault()
+            setConnected(true)
         }
     })
 
     ws.addEventListener('open', (_ev: Event) => {
-        setConnected(true)
         ws.send('requests_id')
-
     })
 
     ws.addEventListener('close', () => {
@@ -48,7 +46,7 @@ function setupWebsocket(setId: (_: string) => void, setConnected: (_: boolean) =
 
     ws.onerror = (ev: Event) => {
         ws.close()
-        console.error('Error occured' + ev)
+        console.error(ev)
     }
 }
 
@@ -65,6 +63,7 @@ export function WebsocketContextProvider(props: any) {
                 console.log("Invoked send");
                 
                 const msg = id + ';' + cmd + ';' + params.join(',')
+                console.log(ws);
                 ws.send(msg)
                 console.log("Sent " + msg);
                 
