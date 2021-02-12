@@ -1,0 +1,13 @@
+.url {
+    font-family: monospace;
+    background-color: #AAAAAA;
+    color: white;
+    font-weight: bold;
+    
+    display: block;
+    padding: 10px;
+    border: #999999 solid 2px;
+    border-radius: 10px;
+    
+    text-align: center;
+}
