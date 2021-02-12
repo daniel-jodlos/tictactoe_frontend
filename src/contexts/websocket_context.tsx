@@ -3,14 +3,14 @@ import { useId } from './id_context'
 
 export interface WebsocketContextValue {
     connected: boolean;
-    send: (cmd: string, params: [string]) => void;
+    send: (cmd: string, params: string[]) => void;
     subscribe: (callback: (ev: MessageEvent) => void) => void;
     unsubscribe: (callback: (ev: MessageEvent) => void) => void;
 }
 
 const context = React.createContext<WebsocketContextValue>({
     connected: false,
-    send: (cmd: string, params: [string]) => { throw new Error("Undefined shit") },
+    send: (cmd: string, params: string[]) => { throw new Error("Undefined shit") },
     subscribe: (_) => { },
     unsubscribe: (_) => { },
 })
@@ -59,7 +59,7 @@ export function WebsocketContextProvider(props: any) {
     const value = useMemo((): WebsocketContextValue => {
         return {
             connected,
-            send: (cmd: string, params: [string]) => {
+            send: (cmd: string, params: string[]) => {
                 console.log("Invoked send");
                 
                 const msg = id + ';' + cmd + ';' + params.join(',')

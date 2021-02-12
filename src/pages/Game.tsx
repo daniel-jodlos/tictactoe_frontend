@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { setEmitFlags } from "typescript";
 import { parse, useWebsocket } from "../contexts/websocket_context";
 
 import '../styles/Game.css'
@@ -25,7 +24,7 @@ const BoardCell = ({ value, callback, active }: { active: boolean; value: number
 
 const Game = () => {
     const { id } = useParams<RouteParams>()
-    const [turn, setTurn] = useState(true)
+    const [turn, setTurn] = useState(false)
     const [board, setBoard] = useState([0,0,0,0,0,0,0,0,0])
     const [opponent, setOpponent] = useState('unknown')
     const [element, setElement] = useState(0)
@@ -40,6 +39,9 @@ const Game = () => {
     const callback = (i: number) => () => {
         updateBoard(i, element)
         setTurn(false)
+        const y = Math.floor(i / 3);
+        const x = i % 3;
+        send('play_on', [x.toString(),y.toString()])
     }
     
     subscribe((ev: MessageEvent) => {
@@ -49,7 +51,7 @@ const Game = () => {
             const [opponentName, element] = params.split(',');
             setOpponent(opponentName)
             setElement(parseInt(element))
-        } else if (command === 'your_turn') {
+        } else if (ev.data === 'your_turn') {
             setTurn(true)
         } else if (command === 'played') {
             const [x,y] = params.split(',')
@@ -61,6 +63,7 @@ const Game = () => {
     
     return ( 
         <>
+            <p>Playing with {opponent}</p>
             <div className="board">
                 {board.map((a, i) => <BoardCell value={a} key={i} callback={callback(i)} active={ a === 0 && turn }/>)}
             </div>
