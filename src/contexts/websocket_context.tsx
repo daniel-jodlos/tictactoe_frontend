@@ -8,13 +8,13 @@ export interface WebsocketContextValue {
     unsubscribe: (callback: (ev: MessageEvent) => void) => void;
 }
 
-const context = React.createContext<WebsocketContextValue>({
+export const WebsocketContext = React.createContext<WebsocketContextValue>({
     connected: false,
     send: (cmd: string, params: string[]) => { throw new Error("Undefined shit") },
     subscribe: (_) => { },
     unsubscribe: (_) => { },
 })
-let ws: WebSocket;
+export let ws: WebSocket;
 
 export function parse(msg: string) {
     return msg.split(';')
@@ -77,9 +77,9 @@ export function WebsocketContextProvider(props: any) {
         }
     }, [connected, id])
 
-    return <context.Provider value={value} {...props} />;
+    return <WebsocketContext.Provider value={value} {...props} />;
 }
 
 export function useWebsocket() {
-    return useContext(context)
+    return useContext(WebsocketContext)
 }
