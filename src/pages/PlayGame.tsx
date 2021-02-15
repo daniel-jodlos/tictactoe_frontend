@@ -27,8 +27,6 @@ const PlayGame = () => {
     
     useEffect(() => {
         if (id) {
-            console.log("connected");
-            
             send('username_of', [oid]);
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps

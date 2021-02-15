@@ -1,8 +1,9 @@
+import { Container } from "@material-ui/core";
 import { Component } from "react";
 import { parse, WebsocketContext, WebsocketContextValue } from "../contexts/websocket_context";
 import { ws } from '../contexts/websocket_context'
 
-import '../styles/Game.css'
+import styles from '../styles/Game.module.css'
 
 const BoardCell = ({ value, callback, active }: { active: boolean; value: number; callback: () => void}) => {
     const text = ((v) : string => {
@@ -13,14 +14,14 @@ const BoardCell = ({ value, callback, active }: { active: boolean; value: number
 
     return (
         <> 
-            <button className="item" onClick={callback} disabled={!active}>{text}</button>
+            <button className={styles.item} onClick={callback} disabled={!active}>{text}</button>
         </>
     )
 }
 
 const ErrorDisplay = ({ err }: { err: string;}) => {
     if(err)
-        return (<div className="error">{err}</div>);
+        return (<div className={styles.error}>{err}</div>);
     else
         return <></>
 }
@@ -35,7 +36,7 @@ interface StateType {
 }
  
 class GameClass extends Component {
-    state: StateType = {
+    state = {
         opponent: 'unknown',
         board: [0, 0, 0, 0, 0, 0, 0, 0, 0],
         err: '',
@@ -43,9 +44,12 @@ class GameClass extends Component {
         element: 1,
     }
     
-    constructor(props: {}) {
-        super(props)
+    componentDidMount() {
         ws.addEventListener('message', this.subscribe.bind(this)) 
+    }
+    
+    componentWillUnmount() {
+        ws.removeEventListener('message', this.subscribe.bind(this)) 
     }
     
     subscribe(ev: MessageEvent) {
@@ -105,22 +109,22 @@ class GameClass extends Component {
         this.setState(this.state)
     }
     
-    callback(value: WebsocketContextValue, i: number) {
+    callback({send}: WebsocketContextValue, i: number) {
         return () => {
             this.updateBoard(i, this.state.element)
             this.set((s: StateType) => s.turn = false)
             const y = Math.floor(i / 3);
             const x = i % 3;
-            value.send('play_on', [x.toString(), y.toString()])
+            send('play_on', [x.toString(), y.toString()])
         }
     }
 
     render() { 
         return (  
-        <>
+        <Container maxWidth="sm">
             <ErrorDisplay err={this.state.err}/>
             <p>Playing against {this.state.opponent}</p>
-            <div className="board">
+            <div className={styles.board}>
                 <WebsocketContext.Consumer>
                         {
                             value => this.state.board.map((a, i) =>
@@ -132,7 +136,7 @@ class GameClass extends Component {
                         }
                 </WebsocketContext.Consumer>
             </div>
-        </>
+        </Container>
         )
     }
 }

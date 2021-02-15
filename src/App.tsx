@@ -4,34 +4,42 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
-import { Nav } from "./Nav";
-import Home from './pages/InitGame'
+import { Nav } from "./components/Nav";
+import InitGame from './pages/InitGame'
+import Home from './pages/Home'
 import {StateProvider} from './contexts/all_context'
 import PlayGame from "./pages/PlayGame";
 import Game from "./pages/Game";
+import { Container, CssBaseline } from "@material-ui/core";
 
 export default function BasicExample(){
   return (
-  <StateProvider>
-    <Router>
-      <div>
-        <Nav />
-        <hr />
+    <StateProvider>
+      <CssBaseline/>
+      <Router>
+        <div>
+          <Nav />
 
-        <Switch>
-          <Route exact path="/">
-            <Home/>
-          </Route>
-          
-          <Route path="/play/:oid">
-            <PlayGame />    
-          </Route>
-          
-            <Route path="/game/:id">
-              <Game/>
-          </Route>
-        </Switch>
-      </div>
+          <Container maxWidth="sm">
+            <Switch>
+              <Route exact path='/'>
+                <Home/>
+              </Route>
+
+              <Route exact path="/create">
+                <InitGame/>
+              </Route>
+              
+              <Route path="/play/:oid">
+                <PlayGame />    
+              </Route>
+              
+                <Route path="/game/:id">
+                  <Game/>
+              </Route>
+            </Switch>
+          </Container>
+        </div>
       </Router>
     </StateProvider>
   );

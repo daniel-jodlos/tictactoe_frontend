@@ -1,0 +1,35 @@
+.nav {
+    display: flex;
+    align-items: flex-start;
+    padding: 5px 10px;
+    margin: 0;
+    width: 100%;
+    height: auto;
+    background-color: blue;
+}
+
+.nav a {
+    color: white;
+    text-decoration: none;
+    border: none;
+    background: none;
+    padding: 10px;
+    margin-right: 10px;
+}
+
+
+.nav a:hover {
+    color: black;
+    background-color: white;
+    border-radius: 4px;
+}
+
+.nav .title {
+    color: white;
+    height: 100%;
+    display: table-cell;
+    vertical-align: middle;
+
+    margin: auto 0;
+    margin-right: 40px;
+}

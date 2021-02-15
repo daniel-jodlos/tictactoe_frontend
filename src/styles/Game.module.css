@@ -1,0 +1,21 @@
+.board {
+    width: 300px;
+    padding: 0% calc((100% - 300px)/2);
+    height: 300px;
+    display: grid;
+    grid-template-rows: 100px 100px 100px;
+    grid-template-columns: 100px 100px 100px;
+}
+
+.item {
+    background: none;
+    border: solid black 1px;
+    display: table-cell;
+
+    align-items: center;
+    padding: 10px;
+    margin: 0;
+    
+    width: 100px;
+    height: 100px;
+}
