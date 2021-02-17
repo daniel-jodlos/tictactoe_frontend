@@ -61,7 +61,7 @@ const URL = () => {
                         fontWeight: 'bolder',
                         textAlign: 'center'
                     }}
-                >{process.env.PUBLIC_URL}/create/{id}</div>
+                >{process.env.PUBLIC_URL}/join/{id}</div>
             </>
         )
     } else {

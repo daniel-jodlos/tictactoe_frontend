@@ -9,13 +9,8 @@
 
 .item {
     background: none;
-    border: solid black 1px;
-    display: table-cell;
-
-    align-items: center;
-    padding: 10px;
-    margin: 0;
-    
-    width: 100px;
-    height: 100px;
+    border: solid 2px blue;
+    border-radius: 5px;
+    margin: 5px;
+    color: blue;
 }

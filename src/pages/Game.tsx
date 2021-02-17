@@ -1,21 +1,27 @@
-import { Container } from "@material-ui/core";
+import { Container, IconButton } from "@material-ui/core";
 import { Component } from "react";
 import { parse, WebsocketContext, WebsocketContextValue } from "../contexts/websocket_context";
 import { ws } from '../contexts/websocket_context'
+import CloseIcon from '@material-ui/icons/Close';
+import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 
 import styles from '../styles/Game.module.css'
 
-const BoardCell = ({ value, callback, active }: { active: boolean; value: number; callback: () => void}) => {
-    const text = ((v) : string => {
-        if (v === 0) return '-';
-        else if (v === 1) return 'X';
-        else return 'O'
+const BoardCell = ({ value, callback, active }: { active: boolean; value: number; callback: () => void }) => {
+    const style = {
+        fontSize: '3rem',
+        color: 'black'
+    }
+    const text = ((v) => {
+        if (v === 0) return undefined;
+        else if (v === 1) return <CloseIcon style={style}/>;
+        else return <RadioButtonUncheckedIcon style={style}/>
     })(value)
 
     return (
-        <> 
-            <button className={styles.item} onClick={callback} disabled={!active}>{text}</button>
-        </>
+        <div className={styles.item}> 
+            <IconButton onClick={callback} style={{width: '100%', height: '100%'}} disabled={!active}>{text}</IconButton>
+        </div>
     )
 }
 
@@ -111,6 +117,8 @@ class GameClass extends Component {
     
     callback({send}: WebsocketContextValue, i: number) {
         return () => {
+            console.log(`callback called ${i}`);
+            
             this.updateBoard(i, this.state.element)
             this.set((s: StateType) => s.turn = false)
             const y = Math.floor(i / 3);
