@@ -5,10 +5,10 @@ import {
   Route,
 } from "react-router-dom";
 import { Nav } from "./components/Nav";
-import InitGame from './pages/InitGame'
+import CreateGamePage from './pages/CreateGame'
 import Home from './pages/Home'
 import {StateProvider} from './contexts/all_context'
-import PlayGame from "./pages/PlayGame";
+import JoinGamePage from "./pages/JoinGame";
 import Game from "./pages/Game";
 import { Container, CssBaseline } from "@material-ui/core";
 
@@ -27,11 +27,11 @@ export default function BasicExample(){
               </Route>
 
               <Route exact path="/create">
-                <InitGame/>
+                <CreateGamePage/>
               </Route>
               
-              <Route path="/play/:oid">
-                <PlayGame />    
+              <Route path="/join/:oid">
+                <JoinGamePage />    
               </Route>
               
                 <Route path="/game/:id">

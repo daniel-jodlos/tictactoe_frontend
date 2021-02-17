@@ -9,10 +9,10 @@ interface RouteParams {
     oid: string;
 }
 
-const PlayGame = () => {
+const JoinGamePage = () => {
     const { id } = useId()
     const { subscribe, send } = useWebsocket()
-    const [oppo, setOppo] = useState('<unknown>')
+    const [opponent, setOpponent] = useState('<unknown>')
     const { oid } = useParams<RouteParams>()
     const { accepted } = useUsername()
     const history = useHistory()
@@ -21,7 +21,7 @@ const PlayGame = () => {
         const data = parse(ev.data)
 
         if (data[1] === 'username_of') {
-            setOppo(data[2])
+            setOpponent(data[2])
         }
     })
     
@@ -40,11 +40,11 @@ const PlayGame = () => {
     return ( 
         <>
             <UsernameSelector/>
-            You have been invited to the game by {oppo}. Accept?
-            <button onClick={onAccept} disabled={!accepted || !oppo}>Yes</button>
+            You have been invited to the game by {opponent}. Accept?
+            <button onClick={onAccept} disabled={!accepted || !opponent}>Yes</button>
             <button disabled={true}>No</button>
         </>
     );
 }
          
-export default PlayGame;
+export default JoinGamePage;

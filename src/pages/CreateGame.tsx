@@ -61,7 +61,7 @@ const URL = () => {
                         fontWeight: 'bolder',
                         textAlign: 'center'
                     }}
-                >{process.env.PUBLIC_URL}/play/{id}</div>
+                >{process.env.PUBLIC_URL}/create/{id}</div>
             </>
         )
     } else {
@@ -73,7 +73,7 @@ const URL = () => {
 /**
  * Idea: on this website, we will acquire connection and websocket the shit out of if
  */
-const InitGame = () => {
+const CreateGamePage = () => {
     let { id } = useId()
     let [opponent, setOpponent] = useState('');
     let { accepted } = useUsername();
@@ -100,4 +100,4 @@ const InitGame = () => {
     }
 }
  
-export default InitGame;
+export default CreateGamePage;
