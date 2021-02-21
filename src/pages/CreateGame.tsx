@@ -1,15 +1,12 @@
 import { useState } from "react";
-import {Redirect} from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import { useId } from "../contexts/id_context";
 import { useUsername } from "../contexts/username_context";
 import { UsernameSelector } from "../components/UsernameSelector"
 import { useWebsocket } from "../contexts/websocket_context";
 import { parse } from '../contexts/websocket_context'
 import { createStyles, Button, makeStyles } from "@material-ui/core";
-
-import styles from "../styles/InitGame.module.css"
 import ServerDown from "../components/ServerDown";
-import theme from "../contexts/theme";
 
 const useDisplayStyle = makeStyles(theme => createStyles({
     root: {
@@ -22,11 +19,11 @@ const useDisplayStyle = makeStyles(theme => createStyles({
         fontSize: '0.5rem'
     },
     heading: {
-        
+
     },
     username: {
         display: 'inline-block',
-        width: '100%', 
+        width: '100%',
         padding: '10px',
         border: `solid 2px ${theme.palette.primary.dark}`,
         borderRadius: '10px',
@@ -39,28 +36,33 @@ const UsernameDisplay = () => {
     const styles = useDisplayStyle()
     return (
         <div className={styles.root}>
-            <h1 className={styles.heading}>Your glorious username is</h1>
+            <h1 className={styles.heading}>Your username is:</h1>
             <div className={styles.username}>{username}</div>
-            <Button className={styles.btn} onClick={() => setAccepted(false)}>Change</Button> 
+            <Button className={styles.btn} onClick={() => setAccepted(false)}>Change</Button>
         </div>
     )
 }
+
+const urlStyle = makeStyles(theme => createStyles({
+    url: {
+        backgroundColor: theme.palette.primary.dark,
+        color: 'white',
+        padding: '10px',
+        fontWeight: 'bolder',
+        textAlign: 'center'
+    }
+}))
 
 
 const URL = () => {
     let { username, accepted } = useUsername()
     let { id } = useId()
-    if(username && accepted) {
+    const style = urlStyle()
+    if (username && accepted) {
         return (
             <>
                 <div
-                    style={{
-                        backgroundColor: 'darkviolet',
-                        color: 'white',
-                        padding: '10px',
-                        fontWeight: 'bolder',
-                        textAlign: 'center'
-                    }}
+                    className={ style.url }
                 >{process.env.PUBLIC_URL}/join/{id}</div>
             </>
         )
@@ -69,16 +71,12 @@ const URL = () => {
     }
 }
 
-
-/**
- * Idea: on this website, we will acquire connection and websocket the shit out of if
- */
 const CreateGamePage = () => {
     let { id } = useId()
     let [opponent, setOpponent] = useState('');
     let { accepted } = useUsername();
     let { subscribe } = useWebsocket()
-    
+
     subscribe((ev: MessageEvent) => {
         const data = parse(ev.data)
         if (data[1] === 'play_with') {
@@ -86,18 +84,18 @@ const CreateGamePage = () => {
             console.log("Received redierct request");
         }
     })
-    
+
     if (opponent.length > 0) {
         return <Redirect to={'/game/' + opponent} />
     } else {
         return (
             <>
                 { !accepted ? <UsernameSelector /> : <UsernameDisplay />}
-                <URL/>
-                {!id ? <ServerDown/> : <></>}
+                <URL />
+                {!id ? <ServerDown /> : <></>}
             </>
         );
     }
 }
- 
+
 export default CreateGamePage;

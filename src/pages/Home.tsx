@@ -1,6 +1,5 @@
 import { Button, createStyles, makeStyles } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
-import { isWhiteSpaceLike } from "typescript";
 
 const useStyles = makeStyles(theme => createStyles({
     btn: {
