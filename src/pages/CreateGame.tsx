@@ -64,7 +64,7 @@ const URL = () => {
             <>
                 <div
                     className={style.url}
-                >{process.env.PUBLIC_URL}/join/{id}</div>
+                >{process.env.REACT_APP_DOMAIN}/join/{id}</div>
             </>
         )
     } else {

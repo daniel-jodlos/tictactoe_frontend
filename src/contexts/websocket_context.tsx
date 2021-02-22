@@ -21,12 +21,13 @@ export function parse(msg: string) {
 }
 
 function setupWebsocket(setId: (_: string) => void, setConnected: (_: boolean) => void) {
-    ws = new WebSocket('ws://localhost:9003')
+    const websocketURL = process.env.REACT_APP_WEBSOCKET || 'ws://localhost:9003'
+    ws = new WebSocket(websocketURL)
 
     ws.addEventListener('message', (msg: MessageEvent) => {
         const data = parse(msg.data)
         console.log(msg.data);
-        
+
 
         if (data[1] === 'id') {
             setId(data[0])
@@ -61,12 +62,12 @@ export function WebsocketContextProvider(props: any) {
             connected,
             send: (cmd: string, params: string[]) => {
                 console.log("Invoked send");
-                
+
                 const msg = id + ';' + cmd + ';' + params.join(',')
                 console.log(ws);
                 ws.send(msg)
                 console.log("Sent " + msg);
-                
+
             },
             subscribe: (callback: ((msg: MessageEvent) => void)) => {
                 ws.addEventListener('message', callback)
