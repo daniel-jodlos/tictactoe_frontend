@@ -26,7 +26,7 @@ const BoardCell = ({ value, callback, active }: { active: boolean; value: number
     )
 }
 
-const ErrorDisplay = ({ err }: { err: string; }) => {
+const ErrorDisplay: React.FC<{ err?: string }> = ({ err }) => {
     if (err)
         return (<div className={styles.error}>{err}</div>);
     else
@@ -37,7 +37,7 @@ const ErrorDisplay = ({ err }: { err: string; }) => {
 interface StateType {
     opponent: string;
     board: number[];
-    err: string;
+    err?: string;
     turn: boolean;
     element: number;
     result?: string;
@@ -48,7 +48,7 @@ const Result: React.FC<{ result: string | undefined }> = ({ result }) => {
         return (
             <Popup >
                 The game has ended.
-                <h1>You have {result}</h1>
+                <h1>You {result}</h1>
             </Popup>
         )
     } else {
@@ -60,7 +60,6 @@ class GameClass extends Component {
     state: StateType = {
         opponent: 'unknown',
         board: [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        err: '',
         turn: false,
         element: 1,
     }
@@ -148,10 +147,10 @@ class GameClass extends Component {
     render() {
         return (
             <>
-                <Result result={this.state.result} />
                 <Container maxWidth="sm">
                     <ErrorDisplay err={this.state.err} />
-                    <p>Playing against {this.state.opponent}</p>
+                    <h1>Playing against {this.state.opponent}</h1>
+                    {this.state.turn ? <p>Your turn</p> : <></>}
                     <div className={styles.board}>
                         <WebsocketContext.Consumer>
                             {
@@ -165,6 +164,7 @@ class GameClass extends Component {
                         </WebsocketContext.Consumer>
                     </div>
                 </Container>
+                <Result result={this.state.result} />
             </>
         )
     }

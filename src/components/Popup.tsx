@@ -15,10 +15,11 @@ export class Popup extends Component {
             }}>
                 <div style={{
                     verticalAlign: 'middle',
-                    margin: '50px auto',
+                    margin: '100px auto',
                     background: 'white',
-                    padding: '10px',
-                    maxWidth: '40%'
+                    padding: '20px',
+                    maxWidth: '40%',
+                    borderRadius: '20px'
                 }}>
                     {this.props.children}
                 </div>

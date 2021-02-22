@@ -49,7 +49,8 @@ const urlStyle = makeStyles(theme => createStyles({
         color: 'white',
         padding: '10px',
         fontWeight: 'bolder',
-        textAlign: 'center'
+        textAlign: 'center',
+        borderRadius: '10px'
     }
 }))
 
@@ -62,7 +63,7 @@ const URL = () => {
         return (
             <>
                 <div
-                    className={ style.url }
+                    className={style.url}
                 >{process.env.PUBLIC_URL}/join/{id}</div>
             </>
         )
