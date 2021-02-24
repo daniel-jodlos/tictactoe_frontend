@@ -1,46 +1,39 @@
-# Getting Started with Create React App
+# About
+This repository contains a code for a TicTacToe frontend - a React SPA. It serves as extension of one of my older projects, TicTacToe implementation in C++ that has been modified to communicate with a browser. It operates in a very simple way. Upon entering user creates a new game, and receives URL address that they are expected to share with a person they want to play. Their opponent is expected to open the link and they are joining the game, rest is hopefully self explanatory.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Technology stack
+This repository contains code for a TicTacToe frontend single page application written in React (with react-router and JSS). [Backend](https://github.com/daniel-jodlos/tictactoe_cpp/tree/daniel-jodlos/issue1) is a little unusual - it is websocket only and the API doesn't contain even a single REST route, all communication happens on the websocket. Reasoning behind it is very simple: websocket would have to be setup anyway, so there was no reason not to use it.
 
-## Available Scripts
+As mentioned previously, backend used to be a self sufficient application, so all of the logic is done there - this application is strictly responsible for displaying information, and communicating user actions to the server.
 
-In the project directory, you can run:
+# How to run it?
+There is only one requirement for host machine: **npm** has to be installed, preferably version 6 (stable at the time of commit).
 
-### `npm start`
+Before proceeding with the following steps, please run:
+```bash
+$ npm install
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+And **set the following environment variables**:
+```.env
+REACT_APP_DOMAIN=<domain where the app is served>
+REACT_APP_WEBSOCKET=<address of the server>
+```
+If you are unsure how to do that, create `.env` file in a root folder of cloned repository, paste the above block of code and set required values.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+*NOTE* Please make sure that REACT_APP_WEBSOCKET address starts with `ws://`
 
-### `npm test`
+**Don't forget to start the server!** Instructions can be found in [it's repository](https://github.com/daniel-jodlos/tictactoe_cpp/tree/daniel-jodlos/issue1)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Development mode
+To run the app in production environment simply run:
+```bash
+$ npm run start
+```
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Creating production build and deployment
+To create production optimized build run
+```bash
+npm run build
+```
+New folder *build* will be created, containing production build of the application. Contents of that folder can be served using **any static server**
